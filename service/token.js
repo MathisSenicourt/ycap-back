@@ -12,7 +12,7 @@ function generateRefreshToken(mail) {
 }
 
 // Fonction pour rafraîchir un token
-async function refresh(req, res, next) {
+async function verifyRefreshToken(req, res) {
     try {
         const refreshToken = req.headers['refresh-token'];
 
@@ -27,28 +27,15 @@ async function refresh(req, res, next) {
                 return res.status(403).json({ message: 'Invalid refresh token' });
             }
 
-            const userMail = decoded.mail;
-
-            // Vérifier si l'utilisateur existe dans la base de données
-            const user = await querry.query('SELECT * FROM cmsuser WHERE Mail = ?', [userMail]); //TODO METTRE LA QUERRY DANS LE CONTROLLER
-            if (!user) {
-                return res.status(403).json({ message: 'User not found' });
-            }
-
-            // Générer un nouvel access token
-            const accessToken = generateAccessToken(userMail);
-            // Générer un nouvel refresh token
-            const newRefreshToken = generateRefreshToken(userMail);
-
-            return res.json({ accessToken, refreshToken: newRefreshToken });
+            return decoded.mail;
         });
     } catch (error) {
-        next(error);
+        res.status(500).json({ message: 'Erreur lors de la verification du refresh token' });
     }
 }
 
 module.exports = {
     generateAccessToken,
     generateRefreshToken,
-    refresh
+    verifyRefreshToken
 };

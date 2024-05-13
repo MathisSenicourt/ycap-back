@@ -4,6 +4,6 @@ const userController = require('../controllers/userController');
 
 // Routes pour les users
 router.post('/login', userController.loginWithEmailAndPassword);
-router.post('/refresh', userController.loginWithEmailOnly);
+router.post('/refresh', userController.refreshToken);
 
 module.exports = router;
