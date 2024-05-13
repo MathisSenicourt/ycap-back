@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const sequelize = require('./service/database'); // Importez la configuration de la base de données
 const routeur = require("./routes/routes");
 
 const app = express();
@@ -12,21 +12,27 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/api', routeur);
 
-// Connexion à la base de données MySQL
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'ycap'
-});
-
-connection.connect((err) => {
-  if (err) {
+// Connexion à la base de données MySQL avec Sequelize
+sequelize.authenticate()
+  .then(() => {
+    console.log('Connexion à la base de données MySQL réussie');
+  })
+  .catch(err => {
     console.error('Erreur de connexion à la base de données :', err);
-    return;
-  }
-  console.log('Connexion à la base de données MySQL réussie');
-});
+  });
+
+// Importation des modèles
+const City = require('./models/cityModel');
+const POI = require('./models/POIModel');
+
+// Synchronisation des modèles avec la base de données (création des tables si elles n'existent pas)
+sequelize.sync()
+  .then(() => {
+    console.log('Modèles synchronisés avec la base de données');
+  })
+  .catch(err => {
+    console.error('Erreur lors de la synchronisation des modèles :', err);
+  });
 
 // Démarrage du serveur
 app.listen(port, () => {
