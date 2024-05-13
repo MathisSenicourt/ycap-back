@@ -6,10 +6,8 @@ exports.loginWithEmailAndPassword = async (req, res) => {
   try {
     const user = await User.findOne({ where: { Mail, Password } });
     if (user) {
-      // Authentification réussie
       return res.status(200).json({ message: 'Authentification réussie' });
     } else {
-      // Informations d'identification incorrectes
       return res.status(401).json({ message: 'Adresse e-mail ou mot de passe incorrect' });
     }
   } catch (error) {
@@ -24,10 +22,8 @@ exports.loginWithEmailOnly = async (req, res) => {
   try {
     const user = await User.findOne({ where: { Mail } });
     if (user) {
-      // Utilisateur trouvé avec l'adresse e-mail
       return res.status(200).json({ message: 'Utilisateur trouvé avec l\'adresse e-mail' });
     } else {
-      // Aucun utilisateur trouvé avec cette adresse e-mail
       return res.status(404).json({ message: 'Aucun utilisateur trouvé avec cette adresse e-mail' });
     }
   } catch (error) {

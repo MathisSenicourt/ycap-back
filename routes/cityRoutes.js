@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const cityController = require('../controllers/cityController');
 
-// Routes pour les villes (City)
+// Routes pour les villes
 router.post('/', cityController.createCity);
 router.get('/', cityController.getAllCities);
 router.get('/:id', cityController.getCityById);
