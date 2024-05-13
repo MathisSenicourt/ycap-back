@@ -8,11 +8,11 @@ exports.loginWithEmailAndPassword = async (req, res) => {
     if (user) {
       return res.status(200).json({ message: 'Authentification réussie' });
     } else {
-      return res.status(401).json({ message: 'Adresse e-mail ou mot de passe incorrect' });
+      return res.status(401).json({ message: 'Adresse e-mail ou mot de passe incorrect', error: 2});
     }
   } catch (error) {
     console.error('Erreur lors de la connexion de l\'utilisateur :', error);
-    res.status(500).json({ message: 'Erreur lors de la connexion de l\'utilisateur' });
+    res.status(500).json({ message: 'Erreur lors de la connexion de l\'utilisateur', error: 1});
   }
 };
 
@@ -24,10 +24,10 @@ exports.loginWithEmailOnly = async (req, res) => {
     if (user) {
       return res.status(200).json({ message: 'Utilisateur trouvé avec l\'adresse e-mail' });
     } else {
-      return res.status(404).json({ message: 'Aucun utilisateur trouvé avec cette adresse e-mail' });
+      return res.status(404).json({ message: 'Aucun utilisateur trouvé avec cette adresse e-mail', error: 2});
     }
   } catch (error) {
     console.error('Erreur lors de la recherche de l\'utilisateur par adresse e-mail :', error);
-    res.status(500).json({ message: 'Erreur lors de la recherche de l\'utilisateur par adresse e-mail' });
+    res.status(500).json({ message: 'Erreur lors de la recherche de l\'utilisateur par adresse e-mail', error: 1});
   }
 };
