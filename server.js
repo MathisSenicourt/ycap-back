@@ -1,6 +1,12 @@
 const express = require("express");
 const cors = require('cors');
 const bodyParser = require('body-parser');
+
+require('dotenv').config();
+
+const { expressjwt: jwt } = require("express-jwt");
+const privateKey = process.env.PRIVATE_KEY;
+
 const sequelize = require('./service/database');
 const cityRouteur = require("./routes/cityRoutes");
 const POIRouteur = require("./routes/POIRoutes");
@@ -15,6 +21,14 @@ app.use(cors());
 app.use('/cities', cityRouteur);
 app.use('/pois', POIRouteur);
 app.use('/user', UserRouteur);
+
+// Middleware for JWT authentication
+app.use(
+    jwt({
+        secret: privateKey,
+        algorithms: ["HS256"],
+    }).unless({ path: ["/user/login","/user/refresh"] })
+);
 
 // Connexion à la base de données MySQL avec Sequelize
 sequelize.authenticate()
