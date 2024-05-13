@@ -4,6 +4,19 @@ const City = require('../models/cityModel');
 exports.createCity = async (req, res) => {
   try {
     const { CityName, Latitude, Longitude, Reach } = req.body;
+
+    if (typeof Latitude !== 'number' || typeof Longitude !== 'number') {
+        return res.status(400).json({ message: 'Les valeurs de Latitude et Longitude doivent être des nombres', error: 2 });
+    }
+
+    if (typeof Reach !== 'number') {
+        return res.status(400).json({ message: 'La valeur de Reach doit être un nombre', error: 2 });
+    }
+
+    if (typeof CityName !== 'string') {
+        return res.status(400).json({ message: 'La valeur de CityName doit être une chaîne de caractères', error: 2 });
+    }
+
     const newCity = await City.create({
       CityName,
       Latitude,
@@ -51,6 +64,20 @@ exports.updateCity = async (req, res) => {
     if (!city) {
       return res.status(404).json({ message: 'Ville non trouvée', error: 2});
     }
+    console.log(req.body)
+
+    if (typeof req.body.Latitude !== 'number' || typeof req.body.Latitude !== 'number') {
+        return res.status(400).json({ message: 'Les valeurs de Latitude et Longitude doivent être des nombres', error: 2 });
+    }
+
+    if (typeof req.body.Reach !== 'number') {
+        return res.status(400).json({ message: 'La valeur de Reach doit être un nombre', error: 2 });
+    }
+
+    if (typeof req.body.CityName !== 'string') {
+        return res.status(400).json({ message: 'La valeur de CityName doit être une chaîne de caractères', error: 2 });
+    }
+
     await city.update(req.body);
     res.status(200).json(city);
   } catch (error) {
