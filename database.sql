@@ -23,6 +23,7 @@ CREATE TABLE City (
 CREATE TABLE POI (
                      ID INT PRIMARY KEY AUTO_INCREMENT,
                      CityId INT,
+                     Name VARCHAR(255),
                      District VARCHAR(255),
                      Latitude DECIMAL(10, 8),
                      Longitude DECIMAL(11, 8),

@@ -3,9 +3,10 @@ const POI = require('../models/POIModel');
 // Méthode pour créer un nouveau POI
 exports.createPOI = async (req, res) => {
   try {
-    const { CityId, District, Latitude, Longitude, Description } = req.body;
+    const { CityId, Name, District, Latitude, Longitude, Description } = req.body;
     const newPOI = await POI.create({
       CityId,
+      Name,
       District,
       Latitude,
       Longitude,

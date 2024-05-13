@@ -16,6 +16,10 @@ const POI = sequelize.define('POI', {
       key: 'ID'
     }
   },
+  Name: {
+    type: DataTypes.STRING(255),
+    allowNull: false
+  },
   District: {
     type: DataTypes.STRING(255),
     allowNull: false
