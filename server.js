@@ -27,7 +27,13 @@ app.use(
     jwt({
         secret: privateKey,
         algorithms: ["HS256"],
-    }).unless({ path: ["/user/login","/user/refresh"] })
+    }).unless({
+        path: [
+            {url: /^\/.*/, methods: ['GET']},
+            {url: "/user/login",},
+            {url: "/user/refresh"}
+        ]
+    })
 );
 
 // Connexion à la base de données MySQL avec Sequelize
