@@ -13,7 +13,7 @@ exports.createCity = async (req, res) => {
     res.status(201).json(newCity);
   } catch (error) {
     console.error('Erreur lors de la création de la ville :', error);
-    res.status(500).json({ message: 'Erreur lors de la création de la ville' });
+    res.status(500).json({ message: 'Erreur lors de la création de la ville', error: 1});
   }
 };
 
@@ -24,7 +24,7 @@ exports.getAllCities = async (req, res) => {
     res.status(200).json(cities);
   } catch (error) {
     console.error('Erreur lors de la récupération des villes :', error);
-    res.status(500).json({ message: 'Erreur lors de la récupération des villes' });
+    res.status(500).json({ message: 'Erreur lors de la récupération des villes', error: 1});
   }
 };
 
@@ -34,12 +34,12 @@ exports.getCityById = async (req, res) => {
   try {
     const city = await City.findByPk(id);
     if (!city) {
-      return res.status(404).json({ message: 'Ville non trouvée' });
+      return res.status(404).json({ message: 'Ville non trouvée', error: 2});
     }
     res.status(200).json(city);
   } catch (error) {
     console.error('Erreur lors de la récupération de la ville :', error);
-    res.status(500).json({ message: 'Erreur lors de la récupération de la ville' });
+    res.status(500).json({ message: 'Erreur lors de la récupération de la ville', error: 1});
   }
 };
 
@@ -49,13 +49,13 @@ exports.updateCity = async (req, res) => {
   try {
     const city = await City.findByPk(id);
     if (!city) {
-      return res.status(404).json({ message: 'Ville non trouvée' });
+      return res.status(404).json({ message: 'Ville non trouvée', error: 2});
     }
     await city.update(req.body);
     res.status(200).json(city);
   } catch (error) {
     console.error('Erreur lors de la mise à jour de la ville :', error);
-    res.status(500).json({ message: 'Erreur lors de la mise à jour de la ville' });
+    res.status(500).json({ message: 'Erreur lors de la mise à jour de la ville', error: 1});
   }
 };
 
@@ -65,12 +65,12 @@ exports.deleteCity = async (req, res) => {
   try {
     const city = await City.findByPk(id);
     if (!city) {
-      return res.status(404).json({ message: 'Ville non trouvée' });
+      return res.status(404).json({ message: 'Ville non trouvée', error: 2});
     }
     await city.destroy();
     res.status(204).end();
   } catch (error) {
     console.error('Erreur lors de la suppression de la ville :', error);
-    res.status(500).json({ message: 'Erreur lors de la suppression de la ville' });
+    res.status(500).json({ message: 'Erreur lors de la suppression de la ville', error: 1});
   }
 };

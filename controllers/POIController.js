@@ -15,7 +15,7 @@ exports.createPOI = async (req, res) => {
     res.status(201).json(newPOI);
   } catch (error) {
     console.error('Erreur lors de la création du POI :', error);
-    res.status(500).json({ message: 'Erreur lors de la création du POI' });
+    res.status(500).json({ message: 'Erreur lors de la création du POI', error: 1});
   }
 };
 
@@ -27,7 +27,7 @@ exports.getAllPOIByCityId = async (req, res) => {
     res.status(200).json(pois);
   } catch (error) {
     console.error('Erreur lors de la récupération des POI :', error);
-    res.status(500).json({ message: 'Erreur lors de la récupération des POI' });
+    res.status(500).json({ message: 'Erreur lors de la récupération des POI', error: 1});
   }
 };
 
@@ -37,12 +37,12 @@ exports.getPOIById = async (req, res) => {
   try {
     const poi = await POI.findByPk(id);
     if (!poi) {
-      return res.status(404).json({ message: 'POI non trouvé' });
+      return res.status(404).json({ message: 'POI non trouvé', error: 2});
     }
     res.status(200).json(poi);
   } catch (error) {
     console.error('Erreur lors de la récupération du POI :', error);
-    res.status(500).json({ message: 'Erreur lors de la récupération du POI' });
+    res.status(500).json({ message: 'Erreur lors de la récupération du POI', error: 1});
   }
 };
 
@@ -52,13 +52,13 @@ exports.updatePOI = async (req, res) => {
   try {
     const poi = await POI.findByPk(id);
     if (!poi) {
-      return res.status(404).json({ message: 'POI non trouvé' });
+      return res.status(404).json({ message: 'POI non trouvé', error: 2});
     }
     await poi.update(req.body);
     res.status(200).json(poi);
   } catch (error) {
     console.error('Erreur lors de la mise à jour du POI :', error);
-    res.status(500).json({ message: 'Erreur lors de la mise à jour du POI' });
+    res.status(500).json({ message: 'Erreur lors de la mise à jour du POI', error: 1});
   }
 };
 
@@ -68,12 +68,12 @@ exports.deletePOI = async (req, res) => {
   try {
     const poi = await POI.findByPk(id);
     if (!poi) {
-      return res.status(404).json({ message: 'POI non trouvé' });
+      return res.status(404).json({ message: 'POI non trouvé', error: 2});
     }
     await poi.destroy();
     res.status(204).end();
   } catch (error) {
     console.error('Erreur lors de la suppression du POI :', error);
-    res.status(500).json({ message: 'Erreur lors de la suppression du POI' });
+    res.status(500).json({ message: 'Erreur lors de la suppression du POI', error: 1});
   }
 };
