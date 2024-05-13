@@ -15,26 +15,26 @@ const UserRouteur = require("./routes/userRoutes");
 const app = express();
 const port = 3000;
 
+// Middleware for JWT authentication
+app.use(
+  jwt({
+      secret: privateKey,
+      algorithms: ["HS256"],
+  }).unless({
+      path: [
+          {url: /^\/.*/, methods: ['GET']},
+          {url: "/user/login",},
+          {url: "/user/refresh"}
+      ]
+  })
+);
+
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/cities', cityRouteur);
 app.use('/pois', POIRouteur);
 app.use('/user', UserRouteur);
-
-// Middleware for JWT authentication
-app.use(
-    jwt({
-        secret: privateKey,
-        algorithms: ["HS256"],
-    }).unless({
-        path: [
-            {url: /^\/.*/, methods: ['GET']},
-            {url: "/user/login",},
-            {url: "/user/refresh"}
-        ]
-    })
-);
 
 // Connexion à la base de données MySQL avec Sequelize
 sequelize.authenticate()
