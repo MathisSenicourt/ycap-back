@@ -26,24 +26,25 @@ exports.loginWithEmailAndPassword = async (req, res) => {
 
 // Connexion avec adresse e-mail uniquement
 exports.refreshToken = async (req, res) => {
-    const {Mail} = TokenService.verifyRefreshToken(req, res);
-    let newRefreshToken;
-    let newAccessToken;
-    try {
-        const user = await User.findOne({where: {Mail}});
-        if (user) {
-            newAccessToken = TokenService.generateAccessToken(Mail)
-            newRefreshToken = TokenService.generateRefreshToken(Mail)
-            return res.status(200).json({
-                message: 'Utilisateur trouvé avec l\'adresse e-mail',
-                accessToken: newAccessToken,
-                refreshToken: newRefreshToken
-            });
-        } else {
-            return res.status(404).json({message: 'Aucun utilisateur trouvé avec cette adresse e-mail', error: 2});
-        }
-    } catch (error) {
-        console.error('Erreur lors de la recherche de l\'utilisateur par adresse e-mail :', error);
-        res.status(500).json({message: 'Erreur lors de la recherche de l\'utilisateur par adresse e-mail', error: 1});
+  console.log(req.headers['refresh-token'])
+  let newRefreshToken;
+  let newAccessToken;
+  try {
+    const Mail = await TokenService.getMailFromVerifiedRefreshToken(req, res);
+    const user = await User.findOne({where: {Mail}});
+    if (user) {
+        newAccessToken = TokenService.generateAccessToken(Mail)
+        newRefreshToken = TokenService.generateRefreshToken(Mail)
+        return res.status(200).json({
+            message: 'Utilisateur trouvé avec l\'adresse e-mail',
+            accessToken: newAccessToken,
+            refreshToken: newRefreshToken
+        });
+    } else {
+        return res.status(404).json({message: 'Aucun utilisateur trouvé avec cette adresse e-mail', error: 2});
     }
+  } catch (error) {
+      console.error('Erreur lors de la recherche de l\'utilisateur par adresse e-mail :', error);
+      res.status(500).json({message: 'Erreur lors de la recherche de l\'utilisateur par adresse e-mail', error: 1});
+  }
 };

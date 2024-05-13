@@ -12,7 +12,7 @@ function generateRefreshToken(mail) {
 }
 
 // Fonction pour rafraîchir un token
-async function verifyRefreshToken(req, res) {
+async function getMailFromVerifiedRefreshToken(req, res) {
     try {
         const refreshToken = req.headers['refresh-token'];
 
@@ -22,13 +22,10 @@ async function verifyRefreshToken(req, res) {
         }
 
         // Vérifier si le refresh token est valide
-        jwt.verify(refreshToken, process.env.PRIVATE_KEY, async (err, decoded) => {
-            if (err) {
-                return res.status(403).json({ message: 'Invalid refresh token' });
-            }
+        const decoded = jwt.verify(refreshToken, process.env.PRIVATE_KEY);
+        console.log("decoded " + decoded);
 
-            return decoded.mail;
-        });
+        return decoded.mail;
     } catch (error) {
         res.status(500).json({ message: 'Erreur lors de la verification du refresh token' });
     }
@@ -37,5 +34,5 @@ async function verifyRefreshToken(req, res) {
 module.exports = {
     generateAccessToken,
     generateRefreshToken,
-    verifyRefreshToken
+    getMailFromVerifiedRefreshToken
 };
