@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const TokenService = require('../service/token');
 
 // Connexion avec adresse e-mail et mot de passe
 exports.loginWithEmailAndPassword = async (req, res) => {
@@ -6,6 +7,8 @@ exports.loginWithEmailAndPassword = async (req, res) => {
   try {
     const user = await User.findOne({ where: { Mail, Password } });
     if (user) {
+      TokenService.generateAccessToken(Mail)
+      TokenService.generateRefreshToken(Mail)
       return res.status(200).json({ message: 'Authentification réussie' });
     } else {
       return res.status(401).json({ message: 'Adresse e-mail ou mot de passe incorrect' });
@@ -17,11 +20,13 @@ exports.loginWithEmailAndPassword = async (req, res) => {
 };
 
 // Connexion avec adresse e-mail uniquement
-exports.loginWithEmailOnly = async (req, res) => {
-  const { Mail } = req.body;
+exports.refreshToken = async (req, res) => {
+  const { Mail } = TokenService.verifyRefreshToken(req, res);
   try {
     const user = await User.findOne({ where: { Mail } });
     if (user) {
+      TokenService.generateAccessToken(Mail)
+      TokenService.generateRefreshToken(Mail)
       return res.status(200).json({ message: 'Utilisateur trouvé avec l\'adresse e-mail' });
     } else {
       return res.status(404).json({ message: 'Aucun utilisateur trouvé avec cette adresse e-mail' });
