@@ -12,6 +12,23 @@ exports.createPOI = async (req, res) => {
       Longitude,
       Description
     });
+
+    if (typeof Latitude !== 'number' || typeof Longitude !== 'number') {
+        return res.status(400).json({ message: 'Les valeurs de Latitude et Longitude doivent être des nombres', error: 2 });
+    }
+
+    if (typeof Name !== 'string') {
+        return res.status(400).json({ message: 'La valeur de Name doit être une chaîne de caractères', error: 2 });
+    }
+
+    if (typeof Description !== 'string') {
+        return res.status(400).json({ message: 'La valeur de Description doit être une chaîne de caractères', error: 2 });
+    }
+
+    if (typeof District !== 'string') {
+        return res.status(400).json({ message: 'La valeur de District doit être une chaîne de caractères', error: 2 });
+    }
+
     res.status(201).json(newPOI);
   } catch (error) {
     console.error('Erreur lors de la création du POI :', error);
@@ -54,6 +71,23 @@ exports.updatePOI = async (req, res) => {
     if (!poi) {
       return res.status(404).json({ message: 'POI non trouvé', error: 2});
     }
+
+    if (typeof req.body.Latitude !== 'number' || typeof req.body.Longitude !== 'number') {
+        return res.status(400).json({ message: 'Les valeurs de Latitude et Longitude doivent être des nombres', error: 2 });
+    }
+
+    if (typeof req.body.Name !== 'string') {
+        return res.status(400).json({ message: 'La valeur de Name doit être une chaîne de caractères', error: 2 });
+    }
+
+    if (typeof req.body.Description !== 'string') {
+        return res.status(400).json({ message: 'La valeur de Description doit être une chaîne de caractères', error: 2 });
+    }
+
+    if (typeof req.body.District !== 'string') {
+        return res.status(400).json({ message: 'La valeur de District doit être une chaîne de caractères', error: 2 });
+    }
+
     await poi.update(req.body);
     res.status(200).json(poi);
   } catch (error) {
