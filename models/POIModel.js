@@ -20,10 +20,6 @@ const POI = sequelize.define('POI', {
     type: DataTypes.STRING(255),
     allowNull: false
   },
-  District: {
-    type: DataTypes.STRING(255),
-    allowNull: false
-  },
   Latitude: {
     type: DataTypes.DECIMAL(10, 8),
     allowNull: false
