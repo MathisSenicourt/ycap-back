@@ -3,12 +3,12 @@ require('dotenv').config();
 
 // Fonction pour générer un access token
 function generateAccessToken(mail) {
-    return jwt.sign({ mail }, process.env.PRIVATE_ACCES_KEY, { expiresIn: '1h', algorithm: 'HS256' });
+    return jwt.sign({ mail }, process.env.PRIVATE_ACCES_KEY, { expiresIn: '2d', algorithm: 'HS256' });
 }
 
 // Fonction pour générer un refresh token
 function generateRefreshToken(mail) {
-    return jwt.sign({ mail }, process.env.PRIVATE_REFRESH_KEY, { expiresIn: '14d', algorithm: 'HS256' });
+    return jwt.sign({ mail }, process.env.PRIVATE_REFRESH_KEY, { expiresIn: '30d', algorithm: 'HS256' });
 }
 
 // Fonction pour rafraîchir un token
