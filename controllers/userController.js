@@ -2,6 +2,28 @@ const User = require('../models/userModel');
 const TokenService = require('../service/token');
 const bcrypt = require('bcrypt');
 
+// Enregistrement crypté avec user et mot de passe
+exports.registerUser = async (req, res) => {
+    const { Mail, Password } = req.body;
+  
+    try {
+      const existingUser = await User.findOne({ where: { Mail } });
+      if (existingUser) {
+        return res.status(400).json({ message: 'Utilisateur déjà existant', error : 1 });
+      }
+  
+      const hashedPassword = await bcrypt.hash(Password, 10);
+  
+      await User.create({ Mail, Password: hashedPassword });
+  
+      return res.status(201).json({ message: 'Enregistrement réussi' });
+    } catch (error) {
+      console.error("Erreur lors de l'enregistrement: ", error);
+      return res.status(500).json({ message: "Erreur lors de l'enregistrement", error : 2 });
+    }
+  };
+
+  
 // Connexion avec adresse e-mail et mot de passe
 exports.loginWithEmailAndPassword = async (req, res) => {
     const {Mail, Password} = req.body;
@@ -10,8 +32,6 @@ exports.loginWithEmailAndPassword = async (req, res) => {
     try {
         const user = await User.findOne({where: {Mail}});
         if (user) {
-            console.log(Password)
-            console.log(user.Password)
             const match = await bcrypt.compare(Password, user.Password);
             if (match) {
                 newAccessToken = TokenService.generateAccessToken(Mail)

@@ -33,7 +33,8 @@ app.use(
       path: [
           {url: /^\/.*/, methods: ['GET']},
           {url: "/user/login",},
-          {url: "/user/refresh"}
+          {url: "/user/refresh"},
+          {url: "/user/register"}
       ]
   })
 );

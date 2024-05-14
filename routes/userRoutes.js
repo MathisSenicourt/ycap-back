@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require('../controllers/userController');
 
 // Routes pour les users
+router.post('/register', userController.registerUser);
 router.post('/login', userController.loginWithEmailAndPassword);
 router.post('/refresh', userController.refreshToken);
 
