@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const { expressjwt: jwt } = require("express-jwt");
-const privateAccesKey = process.env.PRIVATE_ACCES_KEY;
+const privateAccesKey = process.env.ACCESS_TOKEN_KEY;
 
 const sequelize = require('./service/database');
 const cityRouteur = require("./routes/cityRoutes");
