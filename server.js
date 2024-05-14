@@ -15,6 +15,15 @@ const UserRouteur = require("./routes/userRoutes");
 const app = express();
 const port = 3000;
 
+// Utilisez CORS comme middleware
+app.use(cors({
+    // origin: 'http://localhost:3000',
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+}));
+
 // Middleware for JWT authentication
 app.use(
   jwt({
