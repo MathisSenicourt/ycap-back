@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require('cors');
+import { rateLimit } from 'express-rate-limit'
 const bodyParser = require('body-parser');
 
 require('dotenv').config();
@@ -14,6 +15,14 @@ const UserRouteur = require("./routes/userRoutes");
 
 const app = express();
 const port = 3000;
+
+// Limiter le nombre de requêtes par IP
+app.use(rateLimit({
+    windowMs: 60 * 1000, // 1 minute
+    limit: 20, // Limit each IP to 20 requests per `window` (here, per 1 minute).
+    standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+    legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+}));
 
 // Utilisez CORS comme middleware
 app.use(cors({
