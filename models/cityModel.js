@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../service/database');
-const POI = require('./poiModel');
+const POI = require('./POIModel');
 
 const City = sequelize.define('City', {
   ID: {
