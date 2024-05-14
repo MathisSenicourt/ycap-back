@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const { expressjwt: jwt } = require("express-jwt");
-const privateKey = process.env.PRIVATE_KEY;
+const privateAccesKey = process.env.PRIVATE_ACCES_KEY;
 
 const sequelize = require('./service/database');
 const cityRouteur = require("./routes/cityRoutes");
@@ -27,7 +27,7 @@ app.use(cors({
 // Middleware for JWT authentication
 app.use(
   jwt({
-      secret: privateKey,
+      secret: privateAccesKey,
       algorithms: ["HS256"],
   }).unless({
       path: [
