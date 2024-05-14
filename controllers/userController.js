@@ -1,5 +1,6 @@
 const User = require('../models/userModel');
 const TokenService = require('../service/token');
+const bcrypt = require('bcrypt');
 
 // Connexion avec adresse e-mail et mot de passe
 exports.loginWithEmailAndPassword = async (req, res) => {
@@ -7,14 +8,21 @@ exports.loginWithEmailAndPassword = async (req, res) => {
     let newRefreshToken;
     let newAccessToken;
     try {
-        const user = await User.findOne({where: {Mail, Password}});
+        const user = await User.findOne({where: {Mail}});
         if (user) {
-            newAccessToken = TokenService.generateAccessToken(Mail)
-            newRefreshToken = TokenService.generateRefreshToken(Mail)
+            console.log(Password)
+            console.log(user.Password)
+            const match = await bcrypt.compare(Password, user.Password);
+            if (match) {
+                newAccessToken = TokenService.generateAccessToken(Mail)
+                newRefreshToken = TokenService.generateRefreshToken(Mail)
 
-            return res.status(200).json({
-                message: 'Authentification réussie', accessToken: newAccessToken, refreshToken: newRefreshToken
-            });
+                return res.status(200).json({
+                    message: 'Authentification réussie', accessToken: newAccessToken, refreshToken: newRefreshToken
+                });
+            }else{
+                return res.status(401).json({message: 'Adresse e-mail ou mot de passe incorrect', error: 2});
+            }
         } else {
             return res.status(401).json({message: 'Adresse e-mail ou mot de passe incorrect', error: 2});
         }
