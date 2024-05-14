@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../service/database');
+const POI = require('./poiModel');
 
 const City = sequelize.define('City', {
   ID: {
@@ -23,6 +24,13 @@ const City = sequelize.define('City', {
     type: DataTypes.INTEGER,
     allowNull: false
   }
+});
+
+// Association entre les villes et les POIs
+City.hasMany(POI, {
+  foreignKey: 'CityId',
+  onDelete: 'CASCADE',
+  hooks: true
 });
 
 module.exports = City;
