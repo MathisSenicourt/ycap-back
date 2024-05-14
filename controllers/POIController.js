@@ -3,11 +3,10 @@ const POI = require('../models/POIModel');
 // Méthode pour créer un nouveau POI
 exports.createPOI = async (req, res) => {
   try {
-    const { CityId, Name, District, Latitude, Longitude, Description } = req.body;
+    const { CityId, Name, Latitude, Longitude, Description } = req.body;
     const newPOI = await POI.create({
       CityId,
       Name,
-      District,
       Latitude,
       Longitude,
       Description
@@ -25,9 +24,6 @@ exports.createPOI = async (req, res) => {
         return res.status(400).json({ message: 'La valeur de Description doit être une chaîne de caractères', error: 2 });
     }
 
-    if (typeof District !== 'string') {
-        return res.status(400).json({ message: 'La valeur de District doit être une chaîne de caractères', error: 2 });
-    }
 
     res.status(201).json(newPOI);
   } catch (error) {
@@ -82,10 +78,6 @@ exports.updatePOI = async (req, res) => {
 
     if (typeof req.body.Description !== 'string') {
         return res.status(400).json({ message: 'La valeur de Description doit être une chaîne de caractères', error: 2 });
-    }
-
-    if (typeof req.body.District !== 'string') {
-        return res.status(400).json({ message: 'La valeur de District doit être une chaîne de caractères', error: 2 });
     }
 
     await poi.update(req.body);

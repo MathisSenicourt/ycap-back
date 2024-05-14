@@ -38,8 +38,8 @@ exports.getAllCities = async (req, res) => {
   } catch (error) {
     console.error('Erreur lors de la récupération des villes :', error);
     res.status(500).json({ message: 'Erreur lors de la récupération des villes', error: 1});
-  }
-};
+    }
+  };
 
 // Méthode pour obtenir une ville par son ID
 exports.getCityById = async (req, res) => {
