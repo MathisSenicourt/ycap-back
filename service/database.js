@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('ycap', 'root', '', {
+const sequelize = new Sequelize('YCAPDB', 'YCAPDBUSER', process.env.DB_PASSWORD, {
   host: 'localhost',
   dialect: 'mysql'
 });
