@@ -1,13 +1,13 @@
-name: deploy-dev
+name: deploy-prod
 
 on:
   push:
+    tags:
+      - '*'
     branches:
       - main
-    tags-ignore:
-      - '*'
 
-concurrency: deploy-dev
+concurrency: deploy-prod
 
 jobs:
     deploy:
@@ -19,10 +19,10 @@ jobs:
           uses: webfactory/ssh-agent@v0.5.3
           with:
             ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        - name: Deploy to dev
+        - name: Deploy to prod
           run: make push
           env:
-            ENV: dev
-            ACCESS_TOKEN_KEY: ${{ secrets.ACCESS_TOKEN_KEY }}
-            REFRESH_TOKEN_KEY: ${{ secrets.REFRESH_TOKEN_KEY }}
-            DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+            ENV: prod
+            ACCESS_TOKEN_KEY: ${{ secrets.ACCESS_TOKEN_KEY_PROD }}
+            REFRESH_TOKEN_KEY: ${{ secrets.REFRESH_TOKEN_KEY_PROD }}
+            DB_PASSWORD: ${{ secrets.DB_PASSWORD_PROD }}
