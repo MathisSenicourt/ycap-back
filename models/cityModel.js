@@ -26,11 +26,5 @@ const City = sequelize.define('City', {
   }
 });
 
-// Association entre les villes et les POIs
-City.hasMany(POI, {
-  foreignKey: 'CityId',
-  onDelete: 'CASCADE',
-  hooks: true
-});
 
 module.exports = City;
