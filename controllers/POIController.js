@@ -1,4 +1,4 @@
-const POI = require('../models/POIModel');
+const POI = require('../models').POI;
 
 // Méthode pour créer un nouveau POI
 exports.createPOI = async (req, res) => {

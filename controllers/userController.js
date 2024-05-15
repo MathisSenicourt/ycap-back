@@ -1,4 +1,4 @@
-const User = require('../models/userModel');
+const User = require('../models').CMSUser;
 const TokenService = require('../service/token');
 const bcrypt = require('bcrypt');
 
