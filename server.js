@@ -64,10 +64,6 @@ sequelize.authenticate()
     console.error('Erreur de connexion à la base de données :', err);
   });
 
-// Importation des modèles
-const City = require('./models/cityModel');
-const POI = require('./models/POIModel');
-
 // Synchronisation des modèles avec la base de données (création des tables si elles n'existent pas)
 sequelize.sync()
   .then(() => {
