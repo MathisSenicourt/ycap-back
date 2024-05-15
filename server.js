@@ -43,7 +43,7 @@ app.use(
           {url: /^\/.*/, methods: ['GET']},
           {url: "/user/login",},
           {url: "/user/refresh"},
-          // {url: "/user/register"}
+          {url: "/user/register"}
       ]
   })
 );
