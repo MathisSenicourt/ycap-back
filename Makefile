@@ -18,4 +18,5 @@ push:
 	ssh -o StrictHostKeyChecking=no -p $(SSH_PORT) $(SSH_USER)@$(SSH_HOST) "cd $(APP_PATH) \
 		&& echo ACCESS_TOKEN_KEY=$(ACCESS_TOKEN_KEY) > $(APP_PATH)/.env \
 		&& echo REFRESH_TOKEN_KEY=$(REFRESH_TOKEN_KEY) >> $(APP_PATH)/.env \
+		&& echo DB_PASSWORD=$(DB_PASSWORD) >> $(APP_PATH)/.env \
 		&& npm i && systemctl restart ycap-back"
